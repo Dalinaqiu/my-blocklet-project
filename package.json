@@ -10,7 +10,7 @@
     "start": "vite --host",
     "clean": "node scripts/build-clean.js",
     "bundle": "npm run clean && vite build && blocklet bundle --zip --create-release",
-    "deploy": "npm run bundle && blocklet deploy .blocklet/bundle",
+    "deploy": "npm run bundle && blocklet deploy .blocklet/bundle --app-id zNKgwgFWzSfyKDLVhhHRPMy7DB6XXwRfbD4p",
     "upload": "npm run bundle && blocklet upload .blocklet/release/blocklet.json",
     "prepare": "husky install",
     "bump-version": "zx --quiet scripts/bump-version.mjs"
@@ -37,6 +37,7 @@
     ]
   },
   "dependencies": {
+    "antd": "^5.16.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.21.0"

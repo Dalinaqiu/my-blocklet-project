@@ -1,22 +1,75 @@
-import { Link } from 'react-router-dom';
+/**
+ * Profile 组件
+ * @author liqiu
+ */
+import { Button, Form, Input, Space, Flex } from 'antd';
+import { useState } from 'react';
+import { getDataFromLocalstorage, setDataFromLocalstorage, userKey, mockData} from '../utils';
 
-import logo from '../logo.svg';
+export default () => {
+  const [form] = Form.useForm();
+  const [isReadOnly, setIsReadOnly] = useState(true);
+  const initValue = getDataFromLocalstorage(userKey) || mockData;
 
-function Home() {
+  const change = () => {
+    setIsReadOnly(!isReadOnly);
+  }
+
+  const save = () => {
+    const data = form.getFieldsValue();
+    setDataFromLocalstorage(userKey, data);
+    change();
+  };
+
   return (
-    <header className="app-header">
-      <img src={logo} className="app-logo" alt="logo" />
-      <pre style={{ textAlign: 'left' }}>
-        <code>window.blocklet = {JSON.stringify(window.blocklet, null, 2)}</code>
-      </pre>
-      <Link className="app-link" to="/about">
-        About
-      </Link>
-      <a className="app-link" href="https://developer.blocklet.io/docs/" target="_blank" rel="noopener noreferrer">
-        Learn Blocklet
-      </a>
-    </header>
-  );
-}
+    <div className="main">
+      <Form
+        form={form}
+        name="basic"
+        disabled={isReadOnly}
+        labelCol={{ span: 8 }}
+        wrapperCol={{ span: 16 }}
+        style={{ maxWidth: 600 }}
+        autoComplete="off"
+        initialValues={initValue}
+      >
+        <Form.Item
+          label="name"
+          name="name"
+        >
+          <Input />
+        </Form.Item>
 
-export default Home;
+        <Form.Item
+          label="email"
+          name="email"
+        >
+          <Input />
+        </Form.Item>
+
+        <Form.Item
+          label="phone"
+          name="phone"
+        >
+          <Input />
+        </Form.Item>
+      </Form>
+      
+      <Space className="actions">
+        <Button
+          type="primary"
+          onClick={change}
+        >
+          编辑
+        </Button>
+        <Button
+          disabled={isReadOnly}
+          onClick={save}
+        >
+          保存
+        </Button>
+      </Space>
+      
+    </div>
+  );
+};
